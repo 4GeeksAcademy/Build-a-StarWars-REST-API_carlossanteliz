@@ -35,15 +35,31 @@ def handle_invalid_usage(error):
 @app.route('/')
 def sitemap():
     return generate_sitemap(app)
+#////////
+# trayendo a todos lo usuarios
 
 @app.route('/user', methods=['GET'])
 def handle_hello():
+    try:
+
+        query_results = User.query.all()
+        if not query_results:
+            return jsonify({"msg": "Usuarios no encontrados"}), 400
+        
+        results = list(map(lambda item: item.serialize(), query_results))
 
     response_body = {
-        "msg": "Hello, this is your GET /user response "
+        "msg": "Todo salió bien",
+        "results": results
     }
 
     return jsonify(response_body), 200
+
+
+
+
+
+
 
 # this only runs if `$ python src/app.py` is executed
 if __name__ == '__main__':

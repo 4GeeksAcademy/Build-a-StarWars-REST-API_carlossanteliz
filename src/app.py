@@ -45,7 +45,7 @@ def sitemap():
 
 
 @app.route('/user', methods=['GET'])
-def handle_hello():
+def all_users():
     try:
 
         query_results = User.query.all()
@@ -65,6 +65,30 @@ def handle_hello():
     except Exception as e:
         print(f"Error al obtener usuarios: {e}")
         return jsonify({"msg": "Internal Server Error", "error": str(e)}), 500
+    
+#trayendo un usario por ID
+@app.route('/user/<int:user_id>', methods=['GET'])
+def user_by_id(user_id):
+    try:
+
+        query_results = User.query.filter_by(id=user_id).first()
+
+        if not query_results:
+            return jsonify({"msg": "Usuario no existente"}), 400
+        
+        response_body = {
+            "msg": "usuario encontrado",
+            "results": query_results.serialize()
+        }
+
+        return jsonify(response_body), 200
+    
+    except Exception as e:
+        print(f"Error al obtener usuario: {e}")
+        return jsonify({"msg": "Internal Server Error", "error": str(e)}, 500)
+
+
+
 
 
 # this only runs if `$ python src/app.py` is executed

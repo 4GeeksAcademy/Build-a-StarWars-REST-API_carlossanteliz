@@ -9,7 +9,7 @@ from flask_cors import CORS
 from utils import APIException, generate_sitemap
 from admin import setup_admin
 from models import db, User
-# from models import Person
+# from models import Person 
 
 app = Flask(__name__)
 app.url_map.strict_slashes = False
@@ -86,6 +86,8 @@ def user_by_id(user_id):
     except Exception as e:
         print(f"Error al obtener usuario: {e}")
         return jsonify({"msg": "Internal Server Error", "error": str(e)}, 500)
+
+#TBD:Trayendo a todos los Planets from the Database
 
 
 
